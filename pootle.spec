@@ -5,7 +5,7 @@
 Summary:	Localization and translation management web application
 Name:		pootle
 Version:	2.0.3
-Release:	0.4
+Release:	0.7
 License:	GPL v2+
 Group:		Development/Tools
 URL:		http://translate.sourceforge.net/wiki/pootle/index
@@ -68,6 +68,11 @@ install -d $RPM_BUILD_ROOT{%{_sbindir},%{_datadir}/pootle,%{_sharedstatedir}/poo
 	--optimize=2 \
 	--root=$RPM_BUILD_ROOT
 
+# install_dirs.py was modified _after_ install completed, so compile again
+# before py_postclean
+# TODO. compile only install_dirs.py
+%py_ocomp $RPM_BUILD_ROOT%{py_sitescriptdir}
+%py_comp $RPM_BUILD_ROOT%{py_sitescriptdir}
 %py_postclean
 
 # Create the manpages
