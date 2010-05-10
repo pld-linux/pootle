@@ -5,14 +5,15 @@
 Summary:	Localization and translation management web application
 Name:		pootle
 Version:	2.0.3
-Release:	0.3
+Release:	0.4
 License:	GPL v2+
 Group:		Development/Tools
 URL:		http://translate.sourceforge.net/wiki/pootle/index
 Source0:	http://downloads.sourceforge.net/project/translate/%{fullname}/%{version}/%{fullname}-%{version}.tar.bz2
 # Source0-md5:	6a64e49c0d19ba0d7392bb87efa213b5
 Source1:	apache.conf
-Patch0:		%{name}-settings.patch
+Patch0:		settings.patch
+Patch1:		paths.patch
 BuildRequires:	python-devel
 BuildRequires:	rpmbuild(macros) >= 1.228
 BuildRequires:	sed >= 4.0
@@ -24,12 +25,12 @@ Requires:	python-Levenshtein
 Requires:	python-django >= 1.0
 Requires:	python-djblets
 Requires:	python-lxml
-Requires:	python-xapian >= 1.0.13
 Requires:	translate-toolkit >= 1.5.1
-Requires:	xapian-core
 Requires:	zip
 Suggests:	memcached
 Suggests:	python-memcached
+Suggests:	python-xapian
+Conflicts:	python-xapian < 1.0.13
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -51,15 +52,17 @@ It's features include::
 %prep
 %setup -q -n %{fullname}-%{version}
 %patch0 -p1
+%patch1 -p1
 
-%{__sed} -i -e 's,^\(INSTALL_CONFIG_DIR\) =.*,\1 = "%{_sysconfdir}",' setup.py
+%{__sed} -i -e '1s,#!.*env python,#!%{__python},' wsgi.py
 
 %build
 %{__python} setup.py build
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sbindir},%{_datadir}/pootle,%{_sharedstatedir}/pootle,%{_sysconfdir}}
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_datadir}/pootle,%{_sharedstatedir}/pootle/po/.tmp,%{_sysconfdir}}
+
 %{__python} setup.py install \
 	--skip-build \
 	--optimize=2 \
@@ -81,14 +84,18 @@ for program in $RPM_BUILD_ROOT%{_bindir}/*; do
 	esac
 done
 
-rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/pootle
-
+# don't clobber user $PATH
 mv $RPM_BUILD_ROOT{%{_bindir},%{_sbindir}}/PootleServer
-rm -r $RPM_BUILD_ROOT%{py_sitescriptdir}/djblets
 install -p wsgi.py $RPM_BUILD_ROOT%{_datadir}/pootle
 
 install -d $RPM_BUILD_ROOT%{_sysconfdir}
 cp -a %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
+
+# we do doc in rpm
+rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/pootle
+
+# external pkg
+rm -r $RPM_BUILD_ROOT%{py_sitescriptdir}/djblets
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -134,6 +141,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sharedstatedir}/pootle
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/dbs
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/po
+
+# setup a tempdir inside the PODIRECTORY heirarchy, this way we have
+# reasonable guarantee that temp files will be created on the same
+# filesystem as translation files (required for save operations).
+%dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/.tmp
+
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/pootle
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/pootle/templates
 %attr(660,root,http) %{_sharedstatedir}/pootle/po/pootle/templates/pootle.pot
