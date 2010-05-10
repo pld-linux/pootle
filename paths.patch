@@ -1,0 +1,11 @@
+--- Pootle-2.0.3/setup.py.orig	2010-05-11 01:07:00.932627057 +0300
++++ Pootle-2.0.3/setup.py	2010-05-11 01:07:00.935960315 +0300
+@@ -54,7 +54,7 @@
+ It uses the Translate Toolkit to get access to translation files and therefore
+ can edit a variety of files (including PO and XLIFF files)."""
+ 
+-INSTALL_CONFIG_DIR = '/etc/pootle'
++INSTALL_CONFIG_DIR = '/etc/webapps/pootle'
+ INSTALL_DATA_DIR = 'share/pootle'
+ INSTALL_DOC_DIR = 'share/doc/pootle'
+ INSTALL_WORKING_DIR = '/var/lib/pootle'
