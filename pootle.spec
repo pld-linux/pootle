@@ -6,7 +6,7 @@
 Summary:	Localization and translation management web application
 Name:		pootle
 Version:	2.0.3
-Release:	0.9
+Release:	0.11
 License:	GPL v2+
 Group:		Development/Tools
 URL:		http://translate.sourceforge.net/wiki/pootle/index
@@ -91,6 +91,44 @@ for program in $RPM_BUILD_ROOT%{_bindir}/*; do
 	esac
 done
 
+> %{name}.lang
+# application language
+for a in $RPM_BUILD_ROOT%{_datadir}/pootle/mo/[a-z]*; do
+	# path file and lang
+	p=${a#$RPM_BUILD_ROOT} l=${a##*/}
+	echo "%lang($l) $p" >> %{name}.lang
+done
+
+# such recursive magic is because we need to have different permissions for
+# directories and files and we want to language tag both of them
+scan_mo() {
+	for obj in "$@"; do
+		# skip bad globs (happens when we recurse)
+		[ -e "$obj" ] || continue
+		# path file and lang
+		path=${obj#$RPM_BUILD_ROOT} lang=${MO_LANG:-${obj##*/}}
+
+		if [ -d $obj ]; then
+			attr='%dir %attr(770,root,http)'
+		else
+			attr='%attr(660,root,http)'
+		fi
+		case $lang in
+		templates)
+			echo "$attr $path" >> %{name}.lang
+			;;
+		*)
+			echo "%lang($lang) $attr $path" >> %{name}.lang
+			;;
+		esac
+		if [ -d $obj ]; then
+			MO_LANG=$lang scan_mo $obj/*
+			unset MO_LANG
+		fi
+	done
+}
+scan_mo $RPM_BUILD_ROOT%{_sharedstatedir}/pootle/po/{pootle,terminology}/* >> %{name}.lang
+
 # don't clobber user $PATH
 mv $RPM_BUILD_ROOT{%{_bindir},%{_sbindir}}/PootleServer
 install -p wsgi.py $RPM_BUILD_ROOT%{_datadir}/pootle
@@ -113,7 +151,7 @@ rm -rf $RPM_BUILD_ROOT
 %triggerun -- apache < 2.2.0, apache-base
 %webapp_unregister httpd %{_webapp}
 
-%files
+%files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc ChangeLog README
 %dir %attr(750,root,http) %{_sysconfdir}
@@ -130,8 +168,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pootle/html
 %{_datadir}/pootle/templates
 %dir %{_datadir}/pootle/mo
-# TODO: %lang
-%{_datadir}/pootle/mo/[a-z]*
 
 %{py_sitescriptdir}/pootle
 %{py_sitescriptdir}/pootle_app
@@ -148,28 +184,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sharedstatedir}/pootle
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/dbs
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/po
-
 # setup a tempdir inside the PODIRECTORY heirarchy, this way we have
 # reasonable guarantee that temp files will be created on the same
 # filesystem as translation files (required for save operations).
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/.tmp
 
+# base translations from pootle itself
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/pootle
-%dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/pootle/templates
-%attr(660,root,http) %{_sharedstatedir}/pootle/po/pootle/templates/pootle.pot
-
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/terminology
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/tutorial
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/tutorial/templates
 %attr(660,root,http) %{_sharedstatedir}/pootle/po/tutorial/templates/tutorial.pot
-
-# TODO %lang
-%dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/pootle/[a-z][a-z]
-%dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/pootle/[a-z][a-z][a-z]
-%dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/pootle/*[@_]*
-
-%attr(660,root,http) %{_sharedstatedir}/pootle/po/pootle/*/*.po
-
-%dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/terminology/*
-%dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/terminology/*/gnome
-%attr(660,root,http) %{_sharedstatedir}/pootle/po/terminology/*/gnome/*.po
