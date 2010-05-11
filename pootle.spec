@@ -15,6 +15,7 @@ Source0:	http://downloads.sourceforge.net/project/translate/%{fullname}/%{versio
 Source1:	apache.conf
 Patch0:		settings.patch
 Patch1:		paths.patch
+Patch2:		homedir.patch
 BuildRequires:	python-devel
 BuildRequires:	rpmbuild(macros) >= 1.228
 BuildRequires:	sed >= 4.0
@@ -30,6 +31,7 @@ Requires:	python-lxml
 Requires:	translate-toolkit >= 1.5.1
 Requires:	zip
 Suggests:	memcached
+Suggests:	python(sqlite)
 Suggests:	python-memcached
 Suggests:	python-xapian
 Conflicts:	python-xapian < 1.0.13
@@ -55,6 +57,7 @@ It's features include::
 %setup -q -n %{fullname}-%{version}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %{__sed} -i -e '1s,#!.*env python,#!%{__python},' wsgi.py
 
