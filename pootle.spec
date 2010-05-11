@@ -1,11 +1,12 @@
 # TODO
 # - move %{_datadir}/pootle/mo/* to system localedir as pootle.mo
 # - lang tag languages in /var
+# - Can't find the ISO codes package. Pootle uses ISO codes to translate language names.
 %define		fullname Pootle
 Summary:	Localization and translation management web application
 Name:		pootle
 Version:	2.0.3
-Release:	0.7
+Release:	0.9
 License:	GPL v2+
 Group:		Development/Tools
 URL:		http://translate.sourceforge.net/wiki/pootle/index
@@ -18,6 +19,7 @@ BuildRequires:	python-devel
 BuildRequires:	rpmbuild(macros) >= 1.228
 BuildRequires:	sed >= 4.0
 BuildRequires:	translate-toolkit >= 1.4.1
+Requires:	apache-mod_mime
 Requires:	apache-mod_wsgi
 Requires:	group(http)
 Requires:	iso-codes
