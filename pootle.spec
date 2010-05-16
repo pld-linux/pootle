@@ -16,6 +16,8 @@ Patch0:		settings.patch
 Patch1:		paths.patch
 Patch2:		homedir.patch
 BuildRequires:	python-devel
+BuildRequires:	python-modules
+BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.228
 BuildRequires:	sed >= 4.0
 BuildRequires:	translate-toolkit >= 1.4.1
