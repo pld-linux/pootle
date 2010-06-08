@@ -4,20 +4,18 @@
 %define		fullname Pootle
 Summary:	Localization and translation management web application
 Name:		pootle
-Version:	2.0.3
+Version:	2.0.4
 Release:	1
 License:	GPL v2+
 Group:		Development/Tools
 URL:		http://translate.sourceforge.net/wiki/pootle/index
 Source0:	http://downloads.sourceforge.net/project/translate/%{fullname}/%{version}/%{fullname}-%{version}.tar.bz2
-# Source0-md5:	6a64e49c0d19ba0d7392bb87efa213b5
+# Source0-md5:	dda7325d8c2f5cd012bc37a94cecfe6f
 Source1:	apache.conf
 Patch0:		settings.patch
 Patch1:		paths.patch
 Patch2:		homedir.patch
 BuildRequires:	python-devel
-BuildRequires:	python-modules
-BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.228
 BuildRequires:	sed >= 4.0
 BuildRequires:	translate-toolkit >= 1.4.1
