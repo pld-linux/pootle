@@ -1,6 +1,5 @@
 # TODO
 # - move %{_datadir}/pootle/mo/* to system localedir as pootle.mo
-# - Can't find the ISO codes package. Pootle uses ISO codes to translate language names.
 %define		fullname Pootle
 Summary:	Localization and translation management web application
 Name:		pootle
@@ -15,6 +14,7 @@ Source1:	apache.conf
 Patch0:		settings.patch
 Patch1:		paths.patch
 Patch2:		homedir.patch
+Patch3:		iso-codes-message.patch
 BuildRequires:	python-devel
 BuildRequires:	rpmbuild(macros) >= 1.228
 BuildRequires:	sed >= 4.0
@@ -57,6 +57,7 @@ It's features include::
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %{__sed} -i -e '1s,#!.*env python,#!%{__python},' wsgi.py
 
