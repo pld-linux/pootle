@@ -4,7 +4,7 @@
 Summary:	Localization and translation management web application
 Name:		pootle
 Version:	2.0.5
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		Development/Tools
 URL:		http://translate.sourceforge.net/wiki/pootle/index
@@ -114,7 +114,7 @@ scan_mo() {
 		if [ -d $obj ]; then
 			attr='%dir %attr(770,root,http)'
 		else
-			attr='%attr(660,root,http)'
+			attr='%attr(660,root,http) %config(noreplace) %verify(not md5 mtime size)'
 		fi
 		case $lang in
 		templates)
