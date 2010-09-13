@@ -3,13 +3,13 @@
 %define		fullname Pootle
 Summary:	Localization and translation management web application
 Name:		pootle
-Version:	2.0.5
-Release:	2
+Version:	2.1.1
+Release:	1
 License:	GPL v2+
 Group:		Development/Tools
 URL:		http://translate.sourceforge.net/wiki/pootle/index
 Source0:	http://downloads.sourceforge.net/project/translate/%{fullname}/%{version}/%{fullname}-%{version}.tar.bz2
-# Source0-md5:	03d390300d1514111e7ea97fb6f5015d
+# Source0-md5:	3ff7db20e629c1abfb6c6d05621cb21f
 Source1:	apache.conf
 Patch0:		settings.patch
 Patch1:		paths.patch
@@ -25,9 +25,10 @@ Requires:	group(http)
 Requires:	iso-codes
 Requires:	python-Levenshtein
 Requires:	python-django >= 1.0
+Requires:	python-django-south
 Requires:	python-djblets
 Requires:	python-lxml
-Requires:	translate-toolkit >= 1.5.1
+Requires:	translate-toolkit >= 1.8.0
 Requires:	zip
 Suggests:	memcached
 Suggests:	python(sqlite)
@@ -130,7 +131,7 @@ scan_mo() {
 		fi
 	done
 }
-scan_mo $RPM_BUILD_ROOT%{_sharedstatedir}/pootle/po/{pootle,terminology}/* >> %{name}.lang
+scan_mo $RPM_BUILD_ROOT%{_sharedstatedir}/pootle/po/{pootle,terminology,tutorial}/* >> %{name}.lang
 
 # don't clobber user $PATH
 mv $RPM_BUILD_ROOT{%{_bindir},%{_sbindir}}/PootleServer
@@ -172,12 +173,19 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pootle/templates
 %dir %{_datadir}/pootle/mo
 
+%{py_sitescriptdir}/contact_form_i18n
 %{py_sitescriptdir}/pootle
 %{py_sitescriptdir}/pootle_app
 %{py_sitescriptdir}/pootle_autonotices
+%{py_sitescriptdir}/pootle_language
 %{py_sitescriptdir}/pootle_misc
 %{py_sitescriptdir}/pootle_notifications
+%{py_sitescriptdir}/pootle_profile
+%{py_sitescriptdir}/pootle_project
+%{py_sitescriptdir}/pootle_statistics
 %{py_sitescriptdir}/pootle_store
+%{py_sitescriptdir}/pootle_terminology
+%{py_sitescriptdir}/pootle_translationproject
 %{py_sitescriptdir}/profiles
 %{py_sitescriptdir}/registration
 %if "%{py_ver}" > "2.4"
@@ -196,5 +204,3 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/pootle
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/terminology
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/tutorial
-%dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/tutorial/templates
-%attr(660,root,http) %{_sharedstatedir}/pootle/po/tutorial/templates/tutorial.pot
