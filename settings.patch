@@ -1,9 +1,9 @@
---- Pootle-2.0.0-rc2/localsettings.py.fedora-settings	2009-11-25 13:27:26.000000000 +0200
-+++ Pootle-2.0.0-rc2/localsettings.py	2009-11-27 16:02:58.000000000 +0200
-@@ -69,7 +69,7 @@ CACHE_BACKEND = 'locmem:///?max_entries=
+--- Pootle-2.1.5/localsettings.py~	2010-12-29 08:59:26.000000000 +0200
++++ Pootle-2.1.5/localsettings.py	2011-01-31 12:01:13.958278122 +0200
+@@ -82,7 +82,7 @@
  #SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
  
- # Uncomment this if you're using memcached as CACHE_BACKEND and running under Django 1.1
+ # Uncomment this if you're using memcached as CACHE_BACKEND and running under Django >= 1.1
 -#SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 +SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
  
