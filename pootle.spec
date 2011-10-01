@@ -4,8 +4,8 @@
 Summary:	Localization and translation management web application
 Name:		pootle
 Version:	2.1.6
-Release:	1
-License:	GPL v2+
+Release:	2
+License:	GPL v2
 Group:		Development/Tools
 URL:		http://translate.sourceforge.net/wiki/pootle/index
 Source0:	http://downloads.sourceforge.net/translate/%{fullname}-%{version}.tar.bz2
@@ -15,6 +15,7 @@ Patch0:		settings.patch
 Patch1:		paths.patch
 Patch2:		homedir.patch
 Patch3:		iso-codes-message.patch
+Patch4:		bug-2005.patch
 BuildRequires:	python-devel
 BuildRequires:	python-modules
 BuildRequires:	rpm-pythonprov
@@ -61,6 +62,7 @@ It's features include::
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %{__sed} -i -e '1s,#!.*env python,#!%{__python},' wsgi.py
 
@@ -137,6 +139,7 @@ scan_mo $RPM_BUILD_ROOT%{_sharedstatedir}/pootle/po/{pootle,terminology,tutorial
 
 # don't clobber user $PATH
 mv $RPM_BUILD_ROOT{%{_bindir},%{_sbindir}}/PootleServer
+install -p manage.py $RPM_BUILD_ROOT%{_sbindir}/pootle-manage
 install -p wsgi.py $RPM_BUILD_ROOT%{_datadir}/pootle
 
 install -d $RPM_BUILD_ROOT%{_sysconfdir}
@@ -159,7 +162,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc ChangeLog README
+%doc ChangeLog CREDITS README
 %dir %attr(750,root,http) %{_sysconfdir}
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
 %attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/localsettings.py

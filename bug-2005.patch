@@ -1,0 +1,15 @@
+--- a/local_apps/pootle_autonotices/signals.py	2011-09-06 11:06:34.000000000 +0100
++++ b/local_apps/pootle_autonotices/signals.py	2011-09-06 11:09:26.000000000 +0100
+@@ -76,7 +76,11 @@
+     if raw:
+         return
+     if instance.id is not None and instance.istranslated():
+-        dbcopy = Unit.objects.get(id=instance.id)
++        try:
++            dbcopy = Unit.objects.get(id=instance.id)
++        except Unit.DoesNotExist:
++            logging.warning ('Unit %s could not be found', instance.id)
++            return
+         if dbcopy.istranslated():
+             # unit state didn't change, let's quit
+             return
