@@ -22,6 +22,8 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.228
 BuildRequires:	sed >= 4.0
 BuildRequires:	translate-toolkit >= 1.4.1
+Requires:	apache-mod_alias
+Requires:	apache-mod_authz_host
 Requires:	apache-mod_mime
 Requires:	apache-mod_wsgi
 Requires:	group(http)
