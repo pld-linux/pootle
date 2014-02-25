@@ -4,10 +4,9 @@
 Summary:	Localization and translation management web application
 Name:		pootle
 Version:	2.1.6
-Release:	2
+Release:	4
 License:	GPL v2
 Group:		Development/Tools
-URL:		http://translate.sourceforge.net/wiki/pootle/index
 Source0:	http://downloads.sourceforge.net/translate/%{fullname}-%{version}.tar.bz2
 # Source0-md5:	1dc69e42cd93f9174443af350df57491
 Source1:	apache.conf
@@ -16,6 +15,7 @@ Patch1:		paths.patch
 Patch2:		homedir.patch
 Patch3:		iso-codes-message.patch
 Patch4:		bug-2005.patch
+URL:		http://translate.sourceforge.net/wiki/pootle/index
 BuildRequires:	python-devel
 BuildRequires:	python-modules
 BuildRequires:	rpm-pythonprov
@@ -148,7 +148,7 @@ install -d $RPM_BUILD_ROOT%{_sysconfdir}
 cp -a %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
 
 # we do doc in rpm
-rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/pootle
+rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}
 
 # external pkg
 rm -r $RPM_BUILD_ROOT%{py_sitescriptdir}/djblets
