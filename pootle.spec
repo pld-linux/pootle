@@ -4,13 +4,13 @@
 Summary:	Localization and translation management web application
 Name:		pootle
 Version:	2.1.6
-Release:	3
+Release:	2
 License:	GPL v2
 Group:		Development/Tools
 URL:		http://translate.sourceforge.net/wiki/pootle/index
 Source0:	http://downloads.sourceforge.net/translate/%{fullname}-%{version}.tar.bz2
 # Source0-md5:	1dc69e42cd93f9174443af350df57491
-Source1:	httpd.conf
+Source1:	apache.conf
 Patch0:		settings.patch
 Patch1:		paths.patch
 Patch2:		homedir.patch
@@ -39,7 +39,6 @@ Suggests:	memcached
 Suggests:	python(sqlite)
 Suggests:	python-memcached
 Suggests:	python-xapian
-Conflicts:	apache-base < 2.4.0-1
 Conflicts:	python-xapian < 1.0.13
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -157,10 +156,10 @@ rm -r $RPM_BUILD_ROOT%{py_sitescriptdir}/djblets
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%triggerin -- apache-base
+%triggerin -- apache < 2.2.0, apache-base
 %webapp_register httpd %{_webapp}
 
-%triggerun -- apache-base
+%triggerun -- apache < 2.2.0, apache-base
 %webapp_unregister httpd %{_webapp}
 
 %files -f %{name}.lang
