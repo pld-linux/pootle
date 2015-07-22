@@ -1,11 +1,14 @@
---- Pootle-2.1.0/local_apps/pootle_app/views/admin/dashboard.py~	2010-08-16 19:18:09.000000000 +0300
-+++ Pootle-2.1.0/local_apps/pootle_app/views/admin/dashboard.py	2010-08-23 14:43:50.214344936 +0300
-@@ -80,7 +80,7 @@
- 
+--- Pootle-2.5.1.3/pootle/apps/pootle_app/views/admin/dashboard.py~	2015-06-03 16:30:23.000000000 +0300
++++ Pootle-2.5.1.3/pootle/apps/pootle_app/views/admin/dashboard.py	2015-07-22 11:56:40.834510196 +0300
+@@ -102,8 +102,9 @@
      if not depcheck.test_iso_codes():
-         optional.append({'dependency': 'iso-codes',
--                           'text': _("Can't find the ISO codes package. Pootle uses ISO codes to translate language names.")})
-+                           'text': _("Can't find languages from ISO codes package. Be sure that languages configured are actually installed in iso-codes package. Pootle uses ISO codes to translate language names.")})
- 
+         optional.append({
+             'dependency': 'iso-codes',
+-            'text': _("Can't find the ISO codes package. Pootle uses ISO codes"
+-                      " to translate language names.")
++            'text': _("Can't find languages from ISO codes package. "
++                      "Be sure that languages configured are actually installed in iso-codes package. "
++                      "Pootle uses ISO codes to translate language names.")
+         })
      if not depcheck.test_gaupol():
-         optional.append({'dependency': 'gaupol',
+         optional.append({
