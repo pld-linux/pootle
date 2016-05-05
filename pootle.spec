@@ -14,10 +14,9 @@ Patch0:		settings.patch
 Patch1:		paths.patch
 Patch2:		homedir.patch
 URL:		http://pootle.translatehouse.org/
-BuildRequires:	python-devel
 BuildRequires:	python-modules
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.228
+BuildRequires:	rpmbuild(macros) >= 1.714
 BuildRequires:	sed >= 4.0
 BuildRequires:	translate-toolkit >= 1.4.1
 Requires:	apache-mod_alias
@@ -65,16 +64,15 @@ It's features include::
 #%{__sed} -i -e '1s,#!.*env python,#!%{__python},' wsgi.py
 
 %build
-%{__python} setup.py build
+%py_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_datadir}/pootle,%{_sharedstatedir}/pootle/po/.tmp,%{_sysconfdir}}
 
-%{__python} setup.py install \
-	--skip-build \
-	--optimize=2 \
-	--root=$RPM_BUILD_ROOT
+%py_install
+
+%{__rm} -r $RPM_BUILD_ROOT%{py_sitescriptdir}/tests
 
 # install_dirs.py was modified _after_ install completed, so compile again
 # before py_postclean
@@ -134,6 +132,7 @@ scan_mo() {
 	done
 }
 scan_mo $RPM_BUILD_ROOT%{_sharedstatedir}/pootle/po/{pootle,terminology,tutorial}/* >> %{name}.lang
+> %{name}.lang
 
 # don't clobber user $PATH
 #mv $RPM_BUILD_ROOT{%{_bindir},%{_sbindir}}/PootleServer
@@ -160,43 +159,26 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc CREDITS README.rst
+%doc README.rst
 %dir %attr(750,root,http) %{_sysconfdir}
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
-%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/localsettings.py
-%attr(755,root,root) %{_bindir}/import_pootle_prefs
-%attr(755,root,root) %{_bindir}/updatetm
-%attr(755,root,root) %{_sbindir}/PootleServer
-%{_mandir}/man1/updatetm.1*
+#%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/localsettings.py
+%attr(755,root,root) %{_bindir}/pootle
 
+%if 0
 %dir %{_datadir}/pootle
 %{_datadir}/pootle/mo/README
 %attr(755,root,root) %{_datadir}/pootle/wsgi.py
 %{_datadir}/pootle/html
 %{_datadir}/pootle/templates
 %dir %{_datadir}/pootle/mo
-
-%{py_sitescriptdir}/contact_form_i18n
-%{py_sitescriptdir}/pootle
-%{py_sitescriptdir}/pootle_app
-%{py_sitescriptdir}/pootle_autonotices
-%{py_sitescriptdir}/pootle_language
-%{py_sitescriptdir}/pootle_misc
-%{py_sitescriptdir}/pootle_notifications
-%{py_sitescriptdir}/pootle_profile
-%{py_sitescriptdir}/pootle_project
-%{py_sitescriptdir}/pootle_statistics
-%{py_sitescriptdir}/pootle_store
-%{py_sitescriptdir}/pootle_terminology
-%{py_sitescriptdir}/pootle_translationproject
-%{py_sitescriptdir}/profiles
-%{py_sitescriptdir}/registration
-%if "%{py_ver}" > "2.4"
-%{py_sitescriptdir}/Pootle-*.egg-info
 %endif
 
+%{py_sitescriptdir}/pootle
+%{py_sitescriptdir}/Pootle-%{version}-py*.egg-info
+
 %dir %{_sharedstatedir}/pootle
-%dir %attr(770,root,http) %{_sharedstatedir}/pootle/dbs
+#%dir %attr(770,root,http) %{_sharedstatedir}/pootle/dbs
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/po
 # setup a tempdir inside the PODIRECTORY heirarchy, this way we have
 # reasonable guarantee that temp files will be created on the same
@@ -204,6 +186,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/.tmp
 
 # base translations from pootle itself
+%if 0
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/pootle
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/terminology
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/tutorial
+%endif
