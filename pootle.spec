@@ -13,7 +13,6 @@ Source1:	apache.conf
 Patch0:		settings.patch
 Patch1:		paths.patch
 Patch2:		homedir.patch
-Patch3:		iso-codes-message.patch
 URL:		http://pootle.translatehouse.org/
 BuildRequires:	python-devel
 BuildRequires:	python-modules
@@ -62,7 +61,6 @@ It's features include::
 #%patch0 -p1
 #%patch1 -p1
 #%patch2 -p1
-%patch3 -p1
 
 #%{__sed} -i -e '1s,#!.*env python,#!%{__python},' wsgi.py
 
