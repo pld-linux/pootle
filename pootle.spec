@@ -63,6 +63,9 @@ It's features include::
 
 #%{__sed} -i -e '1s,#!.*env python,#!%{__python},' wsgi.py
 
+# not packaging for Travis CI
+rm pootle/settings/91-travis.conf
+
 %build
 %py_build
 

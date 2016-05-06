@@ -69,3 +69,14 @@
  #EMAIL_HOST_PASSWORD = 'YOUR_PASSWORD'
  #EMAIL_HOST = 'smtp.gmail.com'
  #EMAIL_PORT = 587
+--- Pootle-2.7.3/pootle/settings/60-translation.conf~	2016-04-25 17:04:49.000000000 +0300
++++ Pootle-2.7.3/pootle/settings/60-translation.conf	2016-05-06 23:42:45.773331232 +0300
+@@ -5,7 +5,7 @@
+ 
+ 
+ # The directory where the translation files are kept
+-POOTLE_TRANSLATION_DIRECTORY = working_path('translations')
++POOTLE_TRANSLATION_DIRECTORY = '/var/lib/pootle/po'
+ 
+ # On POSIX systems, files synchronized to disk will be assigned these
+ # permissions. Use 0644/0755 for publically-readable files, or 0600/0700 if you
