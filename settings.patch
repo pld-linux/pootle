@@ -1,11 +1,71 @@
---- Pootle-2.1.5/localsettings.py~	2010-12-29 08:59:26.000000000 +0200
-+++ Pootle-2.1.5/localsettings.py	2011-01-31 12:01:13.958278122 +0200
-@@ -82,7 +82,7 @@
- #SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+--- Pootle-2.7.3/pootle/checks.py	2016-04-25 21:29:00.000000000 +0300
++++ Pootle-2.7.3.rfc2606/pootle/checks.py	2016-05-06 23:06:34.627360978 +0300
+@@ -196,7 +196,7 @@
+             id="pootle.W008",
+         ))
  
- # Uncomment this if you're using memcached as CACHE_BACKEND and running under Django >= 1.1
--#SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
-+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
+-    if settings.POOTLE_CONTACT_EMAIL in ("info@YOUR_DOMAIN.com") \
++    if settings.POOTLE_CONTACT_EMAIL in ("info@example.com") \
+        and settings.POOTLE_CONTACT_ENABLED:
+         errors.append(checks.Warning(
+             _("POOTLE_CONTACT_EMAIL is using the following default "
+@@ -214,7 +214,7 @@
+             id="pootle.W009",
+         ))
  
- # To improve performance, non-logged users get cached copies of most pages.
- # This variable is the number of seconds for which a page will be reused from
+-    if settings.DEFAULT_FROM_EMAIL in ("info@YOUR_DOMAIN.com",
++    if settings.DEFAULT_FROM_EMAIL in ("info@example.com",
+                                        "webmaster@localhost"):
+         errors.append(checks.Warning(
+             _("DEFAULT_FROM_EMAIL is using the following default "
+--- Pootle-2.7.3/pootle/settings/30-site.conf	2016-04-25 17:04:49.000000000 +0300
++++ Pootle-2.7.3.rfc2606/pootle/settings/30-site.conf	2016-05-06 23:06:40.610978106 +0300
+@@ -22,7 +22,7 @@
+ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ 
+ # Address to receive messages sent by contact form.
+-POOTLE_CONTACT_EMAIL = 'info@YOUR_DOMAIN.com'
++POOTLE_CONTACT_EMAIL = 'info@example.com'
+ POOTLE_CONTACT_ENABLED = True
+ 
+ # By default Pootle uses SMTP server on localhost, if the server is
+--- Pootle-2.7.3/pootle/settings/90-local.conf.template	2016-04-25 21:29:00.000000000 +0300
++++ Pootle-2.7.3.rfc2606/pootle/settings/90-local.conf.template	2016-05-06 23:07:12.862507728 +0300
+@@ -139,24 +139,24 @@
+ 
+ # This Pootle server admins
+ ADMINS = (
+-    # ('Your Name', 'your_email@domain.com'),
++    # ('Your Name', 'your_email@example.com'),
+ )
+ 
+ # Mail settings
+ 
+ # Default email address to use for messages sent by Pootle.
+ # https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email
+-DEFAULT_FROM_EMAIL = 'info@YOUR_DOMAIN.com'
++DEFAULT_FROM_EMAIL = 'info@example.com'
+ 
+ # Address to receive messages sent by contact form.
+-POOTLE_CONTACT_EMAIL = 'info@YOUR_DOMAIN.com'
++POOTLE_CONTACT_EMAIL = 'info@example.com'
+ POOTLE_CONTACT_ENABLED = True
+ 
+ # Email address to report string errors to, unless a report email was set for
+ # the project for which the string error is being reported.
+ # Use this as a way to forward string error reports to an address
+ # different from the general contact address.
+-POOTLE_CONTACT_REPORT_EMAIL = 'string_errors_manager@YOUR_DOMAIN.com'
++POOTLE_CONTACT_REPORT_EMAIL = 'string_errors_manager@example.com'
+ 
+ # Mail server settings
+ 
+@@ -165,7 +165,7 @@
+ # external outgoing SMTP server.
+ 
+ # Example for Google as an external SMTP server
+-#EMAIL_HOST_USER = 'USER@YOUR_DOMAIN.com'
++#EMAIL_HOST_USER = 'USER@example.com'
+ #EMAIL_HOST_PASSWORD = 'YOUR_PASSWORD'
+ #EMAIL_HOST = 'smtp.gmail.com'
+ #EMAIL_PORT = 587
