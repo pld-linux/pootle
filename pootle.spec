@@ -71,8 +71,12 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_datadir}/pootle,%{_sharedstatedir}/pootle/po/.tmp,%{_sysconfdir}}
 
 %py_install
-
 %{__rm} -r $RPM_BUILD_ROOT%{py_sitescriptdir}/tests
+
+# move these to /var/lib/pootle/po
+install -d $RPM_BUILD_ROOT%{_sharedstatedir}/pootle/po
+mv $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}/translations/{terminology,tutorial} \
+	$RPM_BUILD_ROOT%{_sharedstatedir}/pootle/po
 
 # install_dirs.py was modified _after_ install completed, so compile again
 # before py_postclean
@@ -97,11 +101,13 @@ done
 
 > %{name}.lang
 # application language
+%if 0
 for a in $RPM_BUILD_ROOT%{_datadir}/pootle/mo/[a-z]*; do
 	# path file and lang
 	p=${a#$RPM_BUILD_ROOT} l=${a##*/}
 	echo "%lang($l) $p" >> %{name}.lang
 done
+%endif
 
 # such recursive magic is because we need to have different permissions for
 # directories and files and we want to language tag both of them
@@ -132,7 +138,6 @@ scan_mo() {
 	done
 }
 scan_mo $RPM_BUILD_ROOT%{_sharedstatedir}/pootle/po/{pootle,terminology,tutorial}/* >> %{name}.lang
-> %{name}.lang
 
 # don't clobber user $PATH
 #mv $RPM_BUILD_ROOT{%{_bindir},%{_sbindir}}/PootleServer
@@ -186,8 +191,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/.tmp
 
 # base translations from pootle itself
-%if 0
-%dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/pootle
+#%dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/pootle
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/terminology
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/tutorial
-%endif
