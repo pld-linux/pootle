@@ -14,7 +14,7 @@ Patch0:		settings.patch
 Patch1:		paths.patch
 Patch2:		homedir.patch
 URL:		http://pootle.translatehouse.org/
-BuildRequires:	python-modules
+BuildRequires:	python-modules >= 1:2.7
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
 BuildRequires:	sed >= 4.0
