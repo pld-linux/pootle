@@ -25,7 +25,6 @@ Requires:	apache-mod_mime
 Requires:	apache-mod_wsgi
 Requires:	group(http)
 Requires:	iso-codes
-Requires:	python-Levenshtein
 Requires:	zip
 Suggests:	memcached
 Suggests:	python(sqlite)
