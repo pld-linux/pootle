@@ -4,12 +4,13 @@
 Summary:	Localization and translation management web application
 Name:		pootle
 Version:	2.7.3
-Release:	0.8
+Release:	0.9
 License:	GPL v2
 Group:		Development/Tools
 Source0:	https://github.com/translate/pootle/releases/download/%{version}/Pootle-%{version}.tar.bz2
 # Source0-md5:	b1bac7ae18dc3632c471c63e72852949
 Source1:	apache.conf
+Source2:	find-lang.sh
 Patch0:		settings.patch
 Patch1:		paths.patch
 Patch2:		homedir.patch
@@ -31,6 +32,8 @@ Suggests:	python(sqlite)
 Suggests:	python-memcached
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		find_lang	sh %{_sourcedir}/find-lang.sh %{buildroot}
 
 %define		_webapps	/etc/webapps
 %define		_webapp		%{name}
@@ -90,45 +93,7 @@ mv $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}/{locale,static,assets} \
 %py_comp $RPM_BUILD_ROOT%{py_sitescriptdir}
 %py_postclean
 
-> %{name}.lang
-# application language
-%if 0
-for a in $RPM_BUILD_ROOT%{_datadir}/pootle/mo/[a-z]*; do
-	# path file and lang
-	p=${a#$RPM_BUILD_ROOT} l=${a##*/}
-	echo "%lang($l) $p" >> %{name}.lang
-done
-%endif
-
-# such recursive magic is because we need to have different permissions for
-# directories and files and we want to language tag both of them
-scan_mo() {
-	for obj in "$@"; do
-		# skip bad globs (happens when we recurse)
-		[ -e "$obj" ] || continue
-		# path file and lang
-		path=${obj#$RPM_BUILD_ROOT} lang=${MO_LANG:-${obj##*/}}
-
-		if [ -d $obj ]; then
-			attr='%dir %attr(770,root,http)'
-		else
-			attr='%attr(660,root,http) %config(noreplace) %verify(not md5 mtime size)'
-		fi
-		case $lang in
-		templates)
-			echo "$attr $path" >> %{name}.lang
-			;;
-		*)
-			echo "%lang($lang) $attr $path" >> %{name}.lang
-			;;
-		esac
-		if [ -d $obj ]; then
-			MO_LANG=$lang scan_mo $obj/*
-			unset MO_LANG
-		fi
-	done
-}
-scan_mo $RPM_BUILD_ROOT%{_sharedstatedir}/%{name}/po/{pootle,terminology,tutorial}/* >> %{name}.lang
+%find_lang %{name}.lang
 
 # don't clobber user $PATH
 #mv $RPM_BUILD_ROOT{%{_bindir},%{_sbindir}}/PootleServer
@@ -164,11 +129,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/assets
 %{_datadir}/%{name}/static
+%dir %{_datadir}/%{name}/locale
+%{_datadir}/%{name}/locale/LINGUAS
+%{_datadir}/%{name}/locale/templates
 %if 0
-%{_datadir}/pootle/mo/README
 %attr(755,root,root) %{_datadir}/pootle/wsgi.py
-%{_datadir}/pootle/templates
-%dir %{_datadir}/pootle/mo
 %endif
 
 %{py_sitescriptdir}/%{name}
