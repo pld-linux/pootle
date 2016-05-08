@@ -102,3 +102,23 @@
          'USER': '',
          'PASSWORD': '',
          'HOST': '',
+--- Pootle-2.7.3/pootle/settings/10-base.conf~	2016-04-25 17:04:49.000000000 +0300
++++ Pootle-2.7.3/pootle/settings/10-base.conf	2016-05-08 11:27:04.284020305 +0300
+@@ -49,7 +49,7 @@
+ # The absolute path to the directory where collectstatic
+ # will collect static files for deployment.
+ # Example: "/var/www/example.com/static/"
+-STATIC_ROOT = working_path('assets') + '/'
++STATIC_ROOT = '/usr/share/pootle/assets/'
+ 
+ # URL to use when referring to static files located in
+ # STATIC_ROOT.
+@@ -57,7 +57,7 @@
+ STATIC_URL = '/assets/'
+ 
+ STATICFILES_DIRS = [
+-    working_path('static'),
++    '/usr/share/pootle/static',
+ ]
+ 
+ 

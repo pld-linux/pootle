@@ -4,7 +4,7 @@
 Summary:	Localization and translation management web application
 Name:		pootle
 Version:	2.7.3
-Release:	0.6
+Release:	0.7
 License:	GPL v2
 Group:		Development/Tools
 Source0:	https://github.com/translate/pootle/releases/download/%{version}/Pootle-%{version}.tar.bz2
@@ -79,6 +79,10 @@ mv $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}/translations/{terminology,tutorial
 	$RPM_BUILD_ROOT%{_sharedstatedir}/%{name}/po
 rmdir $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}/translations
 
+# move to /usr/share
+mv $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}/{static,assets} \
+	$RPM_BUILD_ROOT%{_datadir}/%{name}
+
 # install_dirs.py was modified _after_ install completed, so compile again
 # before py_postclean
 # TODO. compile only install_dirs.py
@@ -138,7 +142,7 @@ scan_mo() {
 		fi
 	done
 }
-scan_mo $RPM_BUILD_ROOT%{_sharedstatedir}/pootle/po/{pootle,terminology,tutorial}/* >> %{name}.lang
+scan_mo $RPM_BUILD_ROOT%{_sharedstatedir}/%{name}/po/{pootle,terminology,tutorial}/* >> %{name}.lang
 
 # don't clobber user $PATH
 #mv $RPM_BUILD_ROOT{%{_bindir},%{_sbindir}}/PootleServer
@@ -171,29 +175,31 @@ rm -rf $RPM_BUILD_ROOT
 #%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/localsettings.py
 %attr(755,root,root) %{_bindir}/pootle
 
+%dir %{_datadir}/%{name}
+%{_datadir}/%{name}/assets
+%{_datadir}/%{name}/static
 %if 0
-%dir %{_datadir}/pootle
 %{_datadir}/pootle/mo/README
 %attr(755,root,root) %{_datadir}/pootle/wsgi.py
-%{_datadir}/pootle/html
 %{_datadir}/pootle/templates
 %dir %{_datadir}/pootle/mo
 %endif
 
-%{py_sitescriptdir}/pootle
+%{py_sitescriptdir}/%{name}
 %{py_sitescriptdir}/Pootle-%{version}-py*.egg-info
 
-%dir %{_sharedstatedir}/pootle
-%dir %attr(770,root,http) %{_sharedstatedir}/pootle/dbs
-%dir %attr(770,root,http) %{_sharedstatedir}/pootle/po
+%dir %{_sharedstatedir}/%{name}
+%dir %attr(770,root,http) %{_sharedstatedir}/%{name}/dbs
+%dir %attr(770,root,http) %{_sharedstatedir}/%{name}/po
 # setup a tempdir inside the PODIRECTORY heirarchy, this way we have
 # reasonable guarantee that temp files will be created on the same
 # filesystem as translation files (required for save operations).
-%dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/.tmp
+%dir %attr(770,root,http) %{_sharedstatedir}/%{name}/po/.tmp
 
 # base translations from pootle itself
 #%dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/pootle
-%dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/terminology
-%dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/tutorial
+# terminology and tutorial po files
+%dir %attr(770,root,http) %{_sharedstatedir}/%{name}/po/terminology
+%dir %attr(770,root,http) %{_sharedstatedir}/%{name}/po/tutorial
 
 %dir %attr(770,root,http) /var/log/%{name}
