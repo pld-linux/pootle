@@ -37,7 +37,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_sysconfdir	%{_webapps}/%{_webapp}
 
 # no appropriate packages in pld
-%define		_noautoreq_pyegg	django.* rq
+%define		_noautoreq_pyegg	django.*
 
 %description
 Pootle is web application for managing distributed or crowdsourced
