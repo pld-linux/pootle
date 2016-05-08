@@ -29,8 +29,6 @@ Requires:	zip
 Suggests:	memcached
 Suggests:	python(sqlite)
 Suggests:	python-memcached
-Suggests:	python-xapian
-Conflicts:	python-xapian < 1.0.13
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
