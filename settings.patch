@@ -91,3 +91,14 @@
  
  # Useful references:
  #
+--- Pootle-2.7.3/pootle/settings/20-backends.conf~	2016-04-25 17:04:49.000000000 +0300
++++ Pootle-2.7.3/pootle/settings/20-backends.conf	2016-05-08 11:13:33.265043075 +0300
+@@ -8,7 +8,7 @@
+ DATABASES = {
+     'default': {
+         'ENGINE': 'transaction_hooks.backends.sqlite3',
+-        'NAME': working_path('dbs/pootle.db'),
++        'NAME': '/var/lib/pootle/dbs/pootle.db',
+         'USER': '',
+         'PASSWORD': '',
+         'HOST': '',

@@ -4,7 +4,7 @@
 Summary:	Localization and translation management web application
 Name:		pootle
 Version:	2.7.3
-Release:	0.4
+Release:	0.5
 License:	GPL v2
 Group:		Development/Tools
 Source0:	https://github.com/translate/pootle/releases/download/%{version}/Pootle-%{version}.tar.bz2
@@ -62,13 +62,14 @@ It's features include::
 rm pootle/settings/91-travis.conf
 
 rm pootle/log/README
+rm pootle/dbs/README
 
 %build
 %py_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sbindir},%{_datadir}/%{name},%{_sharedstatedir}/%{name}/po/.tmp,/var/log/%{name},%{_sysconfdir}}
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_datadir}/%{name},%{_sharedstatedir}/%{name}/{dbs,po/.tmp},/var/log/%{name},%{_sysconfdir}}
 
 %py_install
 %{__rm} -r $RPM_BUILD_ROOT%{py_sitescriptdir}/tests
@@ -182,7 +183,7 @@ rm -rf $RPM_BUILD_ROOT
 %{py_sitescriptdir}/Pootle-%{version}-py*.egg-info
 
 %dir %{_sharedstatedir}/pootle
-#%dir %attr(770,root,http) %{_sharedstatedir}/pootle/dbs
+%dir %attr(770,root,http) %{_sharedstatedir}/pootle/dbs
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/po
 # setup a tempdir inside the PODIRECTORY heirarchy, this way we have
 # reasonable guarantee that temp files will be created on the same
