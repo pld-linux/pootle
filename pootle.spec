@@ -4,7 +4,7 @@
 Summary:	Localization and translation management web application
 Name:		pootle
 Version:	2.7.3
-Release:	0.7
+Release:	0.8
 License:	GPL v2
 Group:		Development/Tools
 Source0:	https://github.com/translate/pootle/releases/download/%{version}/Pootle-%{version}.tar.bz2
@@ -80,7 +80,7 @@ mv $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}/translations/{terminology,tutorial
 rmdir $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}/translations
 
 # move to /usr/share
-mv $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}/{static,assets} \
+mv $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}/{locale,static,assets} \
 	$RPM_BUILD_ROOT%{_datadir}/%{name}
 
 # install_dirs.py was modified _after_ install completed, so compile again

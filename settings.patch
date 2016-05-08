@@ -122,3 +122,14 @@
  ]
  
  
+--- Pootle-2.7.3/pootle/settings/95-outro.conf~	2016-04-25 21:29:00.000000000 +0300
++++ Pootle-2.7.3/pootle/settings/95-outro.conf	2016-05-08 11:49:37.391276706 +0300
+@@ -34,7 +34,7 @@
+         sys.exit(1)
+ 
+ # Look for localization files under the 'locale' directory
+-LOCALE_PATHS = (working_path("locale"), )
++LOCALE_PATHS = ('/usr/share/pootle/locale', )
+ 
+ from pootle.i18n import override
+ LANGUAGES = override.find_languages(LOCALE_PATHS[0])
