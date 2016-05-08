@@ -4,7 +4,7 @@
 Summary:	Localization and translation management web application
 Name:		pootle
 Version:	2.7.3
-Release:	0.1
+Release:	0.3
 License:	GPL v2
 Group:		Development/Tools
 Source0:	https://github.com/translate/pootle/releases/download/%{version}/Pootle-%{version}.tar.bz2
@@ -26,11 +26,6 @@ Requires:	apache-mod_wsgi
 Requires:	group(http)
 Requires:	iso-codes
 Requires:	python-Levenshtein
-Requires:	python-django >= 1.0
-Requires:	python-django-south
-Requires:	python-djblets
-Requires:	python-lxml
-Requires:	translate-toolkit >= 1.8.0
 Requires:	zip
 Suggests:	memcached
 Suggests:	python(sqlite)
@@ -43,6 +38,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_webapps	/etc/webapps
 %define		_webapp		%{name}
 %define		_sysconfdir	%{_webapps}/%{_webapp}
+
+# no appropriate packages in pld
+%define		_noautoreq_pyegg	django.* rq
 
 %description
 Pootle is web application for managing distributed or crowdsourced
