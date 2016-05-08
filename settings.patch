@@ -80,3 +80,14 @@
  
  # On POSIX systems, files synchronized to disk will be assigned these
  # permissions. Use 0644/0755 for publically-readable files, or 0600/0700 if you
+--- Pootle-2.7.3/pootle/settings/25-logging.conf~	2016-04-25 21:29:00.000000000 +0300
++++ Pootle-2.7.3/pootle/settings/25-logging.conf	2016-05-08 11:06:50.064007062 +0300
+@@ -3,7 +3,7 @@
+ #
+ 
+ # The directory where Pootle writes its logs
+-POOTLE_LOG_DIRECTORY = working_path("log")
++POOTLE_LOG_DIRECTORY = '/var/log/pootle'
+ 
+ # Useful references:
+ #

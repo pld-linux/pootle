@@ -4,7 +4,7 @@
 Summary:	Localization and translation management web application
 Name:		pootle
 Version:	2.7.3
-Release:	0.3
+Release:	0.4
 License:	GPL v2
 Group:		Development/Tools
 Source0:	https://github.com/translate/pootle/releases/download/%{version}/Pootle-%{version}.tar.bz2
@@ -63,20 +63,21 @@ It's features include::
 # not packaging for Travis CI
 rm pootle/settings/91-travis.conf
 
+rm pootle/log/README
+
 %build
 %py_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sbindir},%{_datadir}/pootle,%{_sharedstatedir}/pootle/po/.tmp,%{_sysconfdir}}
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_datadir}/%{name},%{_sharedstatedir}/%{name}/po/.tmp,/var/log/%{name},%{_sysconfdir}}
 
 %py_install
 %{__rm} -r $RPM_BUILD_ROOT%{py_sitescriptdir}/tests
 
 # move these to /var/lib/pootle/po
-install -d $RPM_BUILD_ROOT%{_sharedstatedir}/pootle/po
 mv $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}/translations/{terminology,tutorial} \
-	$RPM_BUILD_ROOT%{_sharedstatedir}/pootle/po
+	$RPM_BUILD_ROOT%{_sharedstatedir}/%{name}/po
 
 # install_dirs.py was modified _after_ install completed, so compile again
 # before py_postclean
@@ -194,3 +195,5 @@ rm -rf $RPM_BUILD_ROOT
 #%dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/pootle
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/terminology
 %dir %attr(770,root,http) %{_sharedstatedir}/pootle/po/tutorial
+
+%dir %attr(770,root,http) /var/log/%{name}
