@@ -82,7 +82,7 @@ mv $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}/translations/{terminology,tutorial
 	$RPM_BUILD_ROOT%{_sharedstatedir}/%{name}/po
 rmdir $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}/translations
 
-# move to /usr/share
+# move to data dir
 mv $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}/{locale,static,assets} \
 	$RPM_BUILD_ROOT%{_datadir}/%{name}
 
@@ -120,7 +120,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc README.rst
+%doc README.rst INSTALL CONTRIBUTING.rst
 %dir %attr(750,root,http) %{_sysconfdir}
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
 #%attr(640,root,http) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/localsettings.py
