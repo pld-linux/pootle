@@ -90,20 +90,6 @@ mv $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}/{locale,static,assets} \
 %py_comp $RPM_BUILD_ROOT%{py_sitescriptdir}
 %py_postclean
 
-# Create the manpages
-install -d $RPM_BUILD_ROOT%{_mandir}/man1
-for program in $RPM_BUILD_ROOT%{_bindir}/*; do
-	case $(basename $program) in
-	PootleServer|import_pootle_prefs)
-		;;
-	*)
-		LC_ALL=C PYTHONPATH=. $program --manpage \
-		> $RPM_BUILD_ROOT%{_mandir}/man1/$(basename $program).1 \
-		|| rm -f $RPM_BUILD_ROOT%{_mandir}/man1/$(basename $program).1
-		;;
-	esac
-done
-
 > %{name}.lang
 # application language
 %if 0
