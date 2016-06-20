@@ -3,12 +3,12 @@
 %define		fullname Pootle
 Summary:	Localization and translation management web application
 Name:		pootle
-Version:	2.7.5
+Version:	2.7.6
 Release:	0.9
 License:	GPL v2
 Group:		Development/Tools
 Source0:	https://github.com/translate/pootle/releases/download/%{version}/Pootle-%{version}.tar.bz2
-# Source0-md5:	b264534886ff62f9629cb3814906dab0
+# Source0-md5:	45b21b432261c20e0f7641d6f6703081
 Source1:	apache.conf
 Source2:	find-lang.sh
 Patch0:		settings.patch
