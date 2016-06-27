@@ -1,14 +1,16 @@
 # TODO
 # - move %{_datadir}/pootle/mo/* to system localedir as pootle.mo
+%define		rel		0.1
+%define		subver	b1
 %define		fullname Pootle
 Summary:	Localization and translation management web application
 Name:		pootle
-Version:	2.7.6
+Version:	2.8.0
 Release:	0.9
 License:	GPL v2
 Group:		Development/Tools
-Source0:	https://github.com/translate/pootle/releases/download/%{version}/Pootle-%{version}.tar.bz2
-# Source0-md5:	45b21b432261c20e0f7641d6f6703081
+Source0:	https://github.com/translate/pootle/releases/download/%{version}%{subver}/Pootle-%{version}%{subver}.tar.bz2
+# Source0-md5:	5cc1913bbe92d92c19ed4e3dcf1325bf
 Source1:	apache.conf
 Source2:	find-lang.sh
 Patch0:		settings.patch
@@ -54,7 +56,7 @@ It's features include::
 - Quality checks
 
 %prep
-%setup -q -n %{fullname}-%{version}
+%setup -q -n %{fullname}-%{version}%{?subver}
 %patch0 -p1
 #%patch1 -p1
 #%patch2 -p1
@@ -137,7 +139,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %{py_sitescriptdir}/%{name}
-%{py_sitescriptdir}/Pootle-%{version}-py*.egg-info
+%{py_sitescriptdir}/Pootle-%{version}%{?subver}-py*.egg-info
 
 %dir %{_sharedstatedir}/%{name}
 %dir %attr(770,root,http) %{_sharedstatedir}/%{name}/dbs
