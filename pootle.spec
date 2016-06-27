@@ -1,6 +1,5 @@
 # TODO
 # - move %{_datadir}/pootle/mo/* to system localedir as pootle.mo
-%define		rel		0.1
 %define		subver	b1
 %define		fullname Pootle
 Summary:	Localization and translation management web application
@@ -78,6 +77,7 @@ install -d $RPM_BUILD_ROOT{%{_sbindir},%{_datadir}/%{name},%{_sharedstatedir}/%{
 
 %py_install
 %{__rm} -r $RPM_BUILD_ROOT%{py_sitescriptdir}/tests
+%{__rm} -r $RPM_BUILD_ROOT%{py_sitescriptdir}/pytest_pootle
 
 # move these to /var/lib/pootle/po
 mv $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}/translations/{terminology,tutorial} \
