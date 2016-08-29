@@ -1,15 +1,15 @@
 # TODO
 # - move %{_datadir}/pootle/mo/* to system localedir as pootle.mo
-%define		subver	b1
+%define		subver	b3
 %define		fullname Pootle
 Summary:	Localization and translation management web application
 Name:		pootle
 Version:	2.8.0
-Release:	0.9
+Release:	0.10
 License:	GPL v2
 Group:		Development/Tools
 Source0:	https://github.com/translate/pootle/releases/download/%{version}%{subver}/Pootle-%{version}%{subver}.tar.bz2
-# Source0-md5:	5cc1913bbe92d92c19ed4e3dcf1325bf
+# Source0-md5:	c7e86066f78f8a04823309c1b3cf0134
 Source1:	apache.conf
 Source2:	find-lang.sh
 Patch0:		settings.patch
@@ -39,9 +39,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_webapps	/etc/webapps
 %define		_webapp		%{name}
 %define		_sysconfdir	%{_webapps}/%{_webapp}
-
-# no appropriate packages in pld
-%define		_noautoreq_pyegg	django.*
 
 %description
 Pootle is web application for managing distributed or crowdsourced
