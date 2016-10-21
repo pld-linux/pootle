@@ -24,7 +24,7 @@ BuildRequires:	translate-toolkit >= 1.4.1
 Requires:	apache-mod_alias
 Requires:	apache-mod_authz_host
 Requires:	apache-mod_mime
-Requires:	apache-mod_wsgi
+Requires:	apache(mod_wsgi)
 Requires:	group(http)
 Requires:	iso-codes
 Requires:	zip
