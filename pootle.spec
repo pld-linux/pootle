@@ -4,7 +4,7 @@
 Summary:	Localization and translation management web application
 Name:		pootle
 Version:	2.1.6
-Release:	5
+Release:	6
 License:	GPL v2
 Group:		Development/Tools
 Source0:	http://downloads.sourceforge.net/translate/%{fullname}-%{version}.tar.bz2
@@ -69,16 +69,13 @@ It's features include::
 %{__sed} -i -e '1s,#!.*env python,#!%{__python},' wsgi.py
 
 %build
-%{__python} setup.py build
+%py_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_datadir}/pootle,%{_sharedstatedir}/pootle/po/.tmp,%{_sysconfdir}}
 
-%{__python} setup.py install \
-	--skip-build \
-	--optimize=2 \
-	--root=$RPM_BUILD_ROOT
+%py_install
 
 # install_dirs.py was modified _after_ install completed, so compile again
 # before py_postclean
