@@ -4,7 +4,7 @@
 Summary:	Localization and translation management web application
 Name:		pootle
 Version:	2.1.6
-Release:	4
+Release:	5
 License:	GPL v2
 Group:		Development/Tools
 Source0:	http://downloads.sourceforge.net/translate/%{fullname}-%{version}.tar.bz2
@@ -25,7 +25,7 @@ BuildRequires:	translate-toolkit >= 1.4.1
 Requires:	apache-mod_alias
 Requires:	apache-mod_authz_host
 Requires:	apache-mod_mime
-Requires:	apache-mod_wsgi
+Requires:	apache(mod_wsgi)
 Requires:	group(http)
 Requires:	iso-codes
 Requires:	python-Levenshtein
