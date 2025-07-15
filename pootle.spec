@@ -53,7 +53,7 @@ It's features include::
 
 %prep
 %setup -q -n %{fullname}-%{version}%{?subver}
-%patch0 -p1
+%patch -P0 -p1
 #%patch1 -p1
 #%patch2 -p1
 
