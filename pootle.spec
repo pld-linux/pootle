@@ -54,8 +54,8 @@ It's features include::
 %prep
 %setup -q -n %{fullname}-%{version}%{?subver}
 %patch -P0 -p1
-#%patch1 -p1
-#%patch2 -p1
+#%%patch1 -p1
+#%%patch2 -p1
 
 #%{__sed} -i -e '1s,#!.*env python,#!%{__python},' wsgi.py
 
